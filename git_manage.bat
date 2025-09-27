@@ -106,12 +106,14 @@ choice /c yn /n /m "确定输入y，不确定输入n"
 if %errorlevel% equ 2 goto :eof
 set /p "commit_msg=请输入提交说明(你的修改内容): "
 git commit -m "%commit_msg%"
-if %errorlevel% == 0 (
-    echo 提交成功!
-    echo 已提交到本地仓库，还要继续提交到github吗
-    choice /c yn /n /m "确定输入y，不确定输入n"
-    echo %errorlevel%
-    if %errorlevel% == 1 (git push origin HEAD)
-)
+if %errorlevel% == 0 (call upload)
 pause
+goto :eof
+
+:upload
+echo 提交成功!
+echo 已提交到本地仓库，还要继续提交到github吗
+choice /c yn /n /m "确定输入y，不确定输入n"
+echo %errorlevel%
+if %errorlevel% == 1 (git push origin HEAD)
 goto :eof

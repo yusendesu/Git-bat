@@ -16,6 +16,8 @@ if not exist ".git" (
     echo ---------------------------------------
     echo 错误：当前目录不是git项目文件夹
     echo ---------------------------------------
+    choice /c yn /n /m "要克隆一个仓库吗？"
+    if %errorlevel% == 1 (call :git_clone)
     pause
     goto init
 )
@@ -28,7 +30,7 @@ echo -----------------------------------
 echo 当前目录: %project_dir%
 echo.
 echo 1 配置git信息
-echo 2 克隆新项目
+echo 2 配置gitignore
 echo 3 创建本地新分支
 echo 4 提交修改
 echo 5 查看状态
@@ -45,7 +47,7 @@ call :git_config
 goto start
 
 :option_2
-call :git_clone
+start notepad .gitignore
 goto start
 
 :option_3
@@ -85,7 +87,7 @@ goto :eof
 :git_clone
 set /p "repo_url=请输入项目地址: "
 git clone "%repo_url%"
-if %errorlevel% neq 0 echo 克隆失败，请检查网络和地址!
+if not %errorlevel% == 0 echo 克隆失败，请检查网络和地址!
 pause
 goto :eof
 
@@ -104,11 +106,11 @@ choice /c yn /n /m "确定输入y，不确定输入n"
 if %errorlevel% equ 2 goto :eof
 set /p "commit_msg=请输入提交说明(你的修改内容): "
 git commit -m "%commit_msg%"
-if %errorlevel% equ 0 (
+if %errorlevel% == 0 (
     echo 提交成功!
     echo 已提交到本地仓库，还要继续提交到github吗
     choice /c yn /n /m "确定输入y，不确定输入n"
-    if %errorlevel% equ 1 (
+    if %errorlevel% == 1 (
         git push origin HEAD
     )
 )

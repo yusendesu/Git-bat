@@ -106,7 +106,7 @@ choice /c yn /n /m "确定输入y，不确定输入n"
 if %errorlevel% equ 2 goto :eof
 set /p "commit_msg=请输入提交说明(你的修改内容): "
 git commit -m "%commit_msg%"
-if %errorlevel% == 0 (call upload)
+if %errorlevel% == 0 (call :upload)
 pause
 goto :eof
 

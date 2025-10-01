@@ -114,6 +114,5 @@ goto :eof
 echo 提交成功!
 echo 已提交到本地仓库，还要继续提交到github吗
 choice /c yn /n /m "确定输入y，不确定输入n"
-echo %errorlevel%
 if %errorlevel% == 1 (git push origin HEAD)
 goto :eof

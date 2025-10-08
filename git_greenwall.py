@@ -21,3 +21,11 @@ def git_bulk_empty_commit(repo_path, days=365, min_commits=1, max_commits=3):
 
         for _ in range(commit_count):
             os.system(f'git commit --allow-empty --date="{formatted_date}" -m "Auto commit on {formatted_date}"')
+
+    os.system('git push origin main')
+
+
+if __name__ == "__main__":
+    # 替换成你的本地 Git 仓库路径
+    repo_path = "/path/to/your/git/repo"
+    git_bulk_empty_commit(repo_path)
